@@ -1,0 +1,25 @@
+version: '3.8'
+
+services:
+  quizbot:
+    restart: always
+    build: ./
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+    environment:
+      - TELEGRAM_TOKEN=<TOKEN>
+      - MONGO_USER=<USER>
+      - MONGO_PASSWORD=<PASSWORD>
+      - POSTGRES_PASSWORD=<PASSWORD>
+
+  db:
+    restart: always
+    image: postgres
+    volumes:
+      - ./initPostgres.sql:/docker-entrypoint-initdb.d/initPostgres.sql
+    environment:
+      - POSTGRES_PASSWORD=<PASSWORD>
+    ports:
+      - "5436:5432"

@@ -1,0 +1,94 @@
+
+mongo_config:
+  db_name: "BotDB"
+  conn_string: "mongodb+srv://%s:%s@quizbotcluster.saqtbg6.mongodb.net/?retryWrites=true&w=majority"
+
+postgres_config:
+  postgres_host: "db"
+  postgres_port: "5432"
+  postgres_db_name: "postgres"
+  postgres_user: "postgres"
+
+responses:
+  select_sphere: "Select sphere of quiz"
+  select_section: "Select section of quiz"
+  select_diff: "Select difficulty of quiz"
+  select_amount: "Enter amount of questions"
+  quiz_start: "Quiz is started!"
+  quiz_stop: "Quiz was stopped successfully"
+  no_quiz_stop: "There is no quiz to stop"
+  quiz_results: "Quiz is ended!\nYour result: %d/%d correct answers"
+  quiz_correct: "Correct!"
+  quiz_wrong: "Wrong!"
+  start_reply: "Hello there! I am QuizBot and I can help you check your knowledge in different spheres.\nPress 'About' to see more information!"
+  about_reply: "With help of this bot you can set up configuration for quiz choosing sphere, section, difficulty and amount of questions and then this bot will randomly ask you questions according to your settings with the results in the end.\nPress 'Quiz' to set up parameters for quiz and start it.\nTo see information about completed quizzes press 'Statistics'."
+  contacts_reply: "Telegram: @senkevich_s\nGitHub: https://github.com/Stanislau-Senkevich\n"
+  duration_reply: "Choose the period where should I search for your results."
+  no_stats: "You haven't taken part in any quiz for this period."
+  stats_pattern: "Quiz #%d\nDate: %d %s %d\nSphere: %s\nSection: %s\nDifficulty: %s\nResult: %d/%d"
+
+errors:
+  invalid_option: "You have selected an invalid option! Please, choose one from the keyboard."
+  unknown_error: "Oops, something went wrong, try again."
+  stop_quiz: "Stop quiz to use bot commands."
+  bot_problem: "It seems something went wrong on our side. Please, try again, if you will see this error again, write to Contacts."
+  no_files: "I can't find any tasks for settings you have selected. Please, stop quiz and select another options."
+  invalid_time: "Invalid period of time was provided. Please, select one from the keyboard."
+  save_quiz: "Failed to save your results :("
+
+buttons:
+  start: "/start"
+  all: "All"
+  stop: "Stop"
+  quiz: "Quiz"
+  statistics: "Statistics"
+  contacts: "Contacts"
+  about: "About"
+  7_days: "Last 7 days"
+  14_days: "Last 14 days"
+  30_days: "Last 30 days"
+  90_days: "Last 90 days"
+  all_time: "All time"
+
+task_collection:
+  name: "Task"
+  question_field: "question"
+  options_field: "options"
+  correct_option_id_field: "correct_answer_id"
+  sphere_field: "sphere"
+  section_field: "section"
+  difficulty_field: "difficulty"
+  tags_field: "tags"
+
+quiz_collection:
+  name: "Quiz"
+  chat_id_field: "chat_id"
+  sphere_field: "sphere"
+  section_field: "section"
+  difficulty_field: "difficulty"
+  tags_field: "tags"
+  task_amount_field: "tasks_amount"
+  task_iter_field: "current_task_iter"
+  correct_tasks_field: "correct_tasks"
+  tasks_field: "tasks"
+  none_value: "none"
+  all_value: "All"
+
+stats_collection:
+  name: "Stats"
+  chat_id_field: "chat_id"
+  sphere_field: "sphere"
+  section_field: "section"
+  difficulty_field: "difficulty"
+  task_amount_field: "tasks_amount"
+  correct_tasks_field: "correct_tasks"
+  date_field: "date"
+
+stages:
+  start: "Start"
+  sphere: "Sphere"
+  section: "Section"
+  difficulty: "Difficulty"
+  amount: "Amount"
+  quiz: "Quiz"
+  statistics: "Statistics"
