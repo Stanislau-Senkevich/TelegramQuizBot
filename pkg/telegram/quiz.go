@@ -100,9 +100,9 @@ func (b *Bot) sendStatistics(chatID int64, timeValue time.Duration) error {
 
 	s := entity.InitStatistics()
 	for _, v := range stats {
-		s.Spheres[v.Sphere] = true
-		s.Sections[v.Section] = true
-		s.Difficulties[v.Difficulty] = true
+		s.Spheres[v.Sphere]++
+		s.Sections[v.Section]++
+		s.Difficulties[v.Difficulty]++
 		s.TasksAmount += v.TaskAmount
 		s.CorrectTasksAmount += v.CorrectTasks
 		s.QuizAmount++
