@@ -3,8 +3,8 @@
 build:
 	go build -o ./.bin/bot  cmd/bot/main.go
 
-run: build
-	./.bin/bot
+run:
+	docker-compose up --build
 
 build-image:
 	docker build -t quizdocker .
