@@ -21,7 +21,7 @@ responses:
   quiz_correct: "Correct!"
   quiz_wrong: "Wrong!"
   start_reply: "Hello there! I am QuizBot and I can help you check your knowledge in different spheres.\nPress 'About' to see more information!"
-  about_reply: "With help of this bot you can set up configuration for quiz choosing sphere, section, difficulty and amount of questions and then this bot will randomly ask you questions according to your settings with the results in the end.\nPress 'Quiz' to set up parameters for quiz and start it.\nTo see information about completed quizzes press 'Statistics'."
+  about_reply: "With help of this bot you can set up configuration for quiz choosing sphere, section, difficulty and amount of questions and then this bot will randomly ask you questions according to your settings with the results in the end.\nPress 'Quiz' to set up parameters for quiz and start it.\nTo see information about completed quizzes press 'Statistics'.\nNotice that questions are generated with ChatGPT, so they can be inaccurate and answers can have mistakes. If you find one, please write to Contacts."
   contacts_reply: "Telegram: @senkevich_s\nGitHub: https://github.com/Stanislau-Senkevich\n"
   duration_reply: "Choose the period where should I search for your results."
   no_stats: "You haven't taken part in any quiz for this period."
