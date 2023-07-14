@@ -1,8 +1,8 @@
-package mongoDB
+package mongodb
 
 import (
-	"QuizBot/pkg/entity"
-	botError "QuizBot/pkg/error"
+	"QuizBot/internal/entity"
+	botError "QuizBot/internal/error"
 	"context"
 	"errors"
 	"go.mongodb.org/mongo-driver/bson"
@@ -12,7 +12,10 @@ import (
 func (m *MongoRepository) GetTasksForQuiz(quiz *entity.Quiz) ([]entity.Task, error) {
 	coll := m.DB.Database(m.Config.DBName).Collection(m.Config.Task.Name)
 
-	filter := m.GenerateMongoFilter([]string{m.Config.Task.SphereField, m.Config.Task.SectionField, m.Config.Task.DifficultyField}, []string{quiz.Sphere, quiz.Section, quiz.Difficulty})
+	filter := m.GenerateMongoFilter([]string{
+		m.Config.Task.SphereField, m.Config.Task.SectionField, m.Config.Task.DifficultyField,
+	},
+		[]string{quiz.Sphere, quiz.Section, quiz.Difficulty})
 	pipeline := []bson.M{
 		{"$match": filter},
 		{"$sample": bson.M{"size": quiz.TaskAmount}},
@@ -48,7 +51,7 @@ func (m *MongoRepository) GetAllRequiredTasks(filter bson.M) ([]entity.Task, err
 	if err != nil {
 		return nil, botError.NewBotError(err, m.Config.NoFilesFound)
 	}
-	return tasks, err
+	return tasks, nil
 }
 
 func (m *MongoRepository) GenerateMongoFilter(keys, values []string) bson.M {
@@ -163,7 +166,6 @@ func (m *MongoRepository) IsValidDifficulty(req, sphere, section string) (bool, 
 }
 
 func (m *MongoRepository) IsValid(req, typeParam string, quiz *entity.Quiz) (bool, error) {
-
 	switch typeParam {
 	case m.Config.Quiz.SphereField:
 		return m.IsValidSphere(req)

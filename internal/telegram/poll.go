@@ -1,7 +1,7 @@
 package telegram
 
 import (
-	"QuizBot/pkg/entity"
+	"QuizBot/internal/entity"
 	"fmt"
 	tgbotapi "github.com/go-telegram-bot-api/telegram-bot-api/v5"
 )
@@ -16,8 +16,12 @@ func (b *Bot) stopPoll(update *tgbotapi.Update) (bool, error) {
 	}
 	_, err = b.bot.StopPoll(tgbotapi.StopPollConfig{
 		BaseEdit: tgbotapi.BaseEdit{
-			ChatID:    poll.ChatID,
-			MessageID: poll.MessageID}},
+			ChatID:          poll.ChatID,
+			MessageID:       poll.MessageID,
+			ChannelUsername: "",
+			InlineMessageID: "",
+			ReplyMarkup:     nil,
+		}},
 	)
 
 	if err != nil {
@@ -52,6 +56,9 @@ func (b *Bot) handlePollAnswer(update *tgbotapi.Update) error {
 	}
 
 	task, _, err := b.quizRep.GetCurrentTask(poll.ChatID)
+	if err != nil {
+		return err
+	}
 
 	result := isCorrectAnswer(update.PollAnswer.OptionIDs, task.CorrectOptionIDs)
 

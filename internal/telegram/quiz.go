@@ -1,8 +1,8 @@
 package telegram
 
 import (
-	"QuizBot/pkg/entity"
-	"QuizBot/pkg/telegram/keyboard"
+	"QuizBot/internal/entity"
+	"QuizBot/internal/keyboard"
 	"fmt"
 	tgbotapi "github.com/go-telegram-bot-api/telegram-bot-api/v5"
 	"sort"
@@ -10,7 +10,6 @@ import (
 )
 
 func (b *Bot) handleStartQuiz(chatID int64) error {
-
 	quiz, err := b.quizRep.GetQuiz(chatID)
 	if err != nil {
 		return err
@@ -27,12 +26,14 @@ func (b *Bot) handleStartQuiz(chatID int64) error {
 	}
 
 	err = b.sendCurrentTask(chatID)
+	if err != nil {
+		return err
+	}
 
 	err = b.userRep.SetStage(chatID, b.Config.QuizStage)
 	if err != nil {
 		return err
 	}
-
 	return err
 }
 
@@ -44,7 +45,12 @@ func (b *Bot) handleQuiz(chatID int64) error {
 	if quiz.CurrentTaskIter >= len(quiz.Tasks) {
 		feedBack := fmt.Sprintf(b.Config.QuizResults, quiz.CorrectTasks, quiz.TaskAmount)
 		msg := tgbotapi.NewMessage(chatID, feedBack)
-		keyboard.MakeKeyBoard(&msg, []string{b.Config.QuizButton, b.Config.StatisticsButton, b.Config.ContactsButton, b.Config.AboutButton})
+		keyboard.MakeKeyBoard(&msg, []string{
+			b.Config.QuizButton,
+			b.Config.StatisticsButton,
+			b.Config.ContactsButton,
+			b.Config.AboutButton,
+		})
 		_, err = b.bot.Send(msg)
 		if err != nil {
 			return err
@@ -98,16 +104,16 @@ func (b *Bot) sendStatistics(chatID int64, timeValue time.Duration) error {
 		return nil
 	}
 
-	s := entity.InitStatistics()
+	statistics := entity.InitStatistics()
 	for _, v := range stats {
-		s.Spheres[v.Sphere]++
-		s.Sections[v.Section]++
-		s.Difficulties[v.Difficulty]++
-		s.TasksAmount += v.TaskAmount
-		s.CorrectTasksAmount += v.CorrectTasks
-		s.QuizAmount++
+		statistics.Spheres[v.Sphere]++
+		statistics.Sections[v.Section]++
+		statistics.Difficulties[v.Difficulty]++
+		statistics.TasksAmount += v.TaskAmount
+		statistics.CorrectTasksAmount += v.CorrectTasks
+		statistics.QuizAmount++
 	}
-	msg := tgbotapi.NewMessage(chatID, s.Print())
+	msg := tgbotapi.NewMessage(chatID, statistics.Print(b.Config))
 	b.makeStartKeyBoard(&msg)
 	_, _ = b.bot.Send(msg)
 	return nil

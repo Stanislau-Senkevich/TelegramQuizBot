@@ -1,8 +1,8 @@
 package telegram
 
 import (
-	"QuizBot/pkg/config"
-	"QuizBot/pkg/repository"
+	"QuizBot/internal/config"
+	"QuizBot/internal/repository"
 	tgbotapi "github.com/go-telegram-bot-api/telegram-bot-api/v5"
 	"log"
 )

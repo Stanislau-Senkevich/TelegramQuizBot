@@ -1,9 +1,9 @@
 package telegram
 
 import (
-	"QuizBot/pkg/entity"
-	botError "QuizBot/pkg/error"
-	"QuizBot/pkg/telegram/keyboard"
+	"QuizBot/internal/entity"
+	botError "QuizBot/internal/error"
+	"QuizBot/internal/keyboard"
 	"errors"
 	tgbotapi "github.com/go-telegram-bot-api/telegram-bot-api/v5"
 	"strconv"

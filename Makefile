@@ -6,6 +6,9 @@ build:
 run:
 	docker-compose up --build
 
+lint:
+	golangci-lint --config .golangci.yml run ./... --deadline=2m --timeout=2m
+
 build-image:
 	docker build -t quizdocker .
 

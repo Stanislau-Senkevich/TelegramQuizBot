@@ -1,17 +1,16 @@
 package main
 
 import (
-	"QuizBot/pkg/config"
-	mongoDB "QuizBot/pkg/repository/mongo"
-	"QuizBot/pkg/repository/postgres"
-	"QuizBot/pkg/telegram"
+	"QuizBot/internal/config"
+	mongoDB "QuizBot/internal/repository/mongo"
+	postgresdb "QuizBot/internal/repository/postgres"
+	"QuizBot/internal/telegram"
 	"context"
 	tgbotapi "github.com/go-telegram-bot-api/telegram-bot-api/v5"
 	"log"
 )
 
 func main() {
-
 	cfg, err := config.InitConfig()
 	if err != nil {
 		log.Fatal(err)
@@ -30,20 +29,19 @@ func main() {
 		}
 	}()
 
-	postgres, err := postgresDB.InitPostgresRepository(&cfg.Postgres)
+	postgres, err := postgresdb.InitPostgresRepository(&cfg.Postgres)
 	if err != nil {
-		log.Fatal(err)
+		log.Panic(err)
 	}
 	defer func() {
 		if err = postgres.DB.Close(); err != nil {
-			log.Fatal(err)
+			log.Panic(err)
 		}
 	}()
 
 	bot := telegram.NewBot(api, postgres, postgres, mongo, mongo, mongo, cfg)
 
-	if err := bot.Start(); err != nil {
-		log.Fatal(err)
+	if err = bot.Start(); err != nil {
+		log.Panic(err)
 	}
-
 }

@@ -1,7 +1,7 @@
-package postgresDB
+package postgresdb
 
 import (
-	"QuizBot/pkg/config"
+	"QuizBot/internal/config"
 	"fmt"
 	"github.com/jmoiron/sqlx"
 	"log"
@@ -16,9 +16,9 @@ type PostgresRepository struct {
 	Config *config.PostgresConfig
 }
 
-func NewPostgresRepository(DB *sqlx.DB, cfg *config.PostgresConfig) *PostgresRepository {
+func NewPostgresRepository(db *sqlx.DB, cfg *config.PostgresConfig) *PostgresRepository {
 	return &PostgresRepository{
-		DB:     DB,
+		DB:     db,
 		Config: cfg,
 	}
 }
@@ -27,9 +27,8 @@ func InitPostgresRepository(cfg *config.PostgresConfig) (*PostgresRepository, er
 	conn := fmt.Sprintf("host=%s port=%s user=%s password=%s dbname=%s sslmode=disable",
 		cfg.DBHost, cfg.DBPort, cfg.DBUser, cfg.DBPassword, cfg.DBName)
 
-	db, err := sqlx.Open(DriverName, conn)
+	db, err := sqlx.Open(DriverName, conn) //nolint
 	if err != nil {
-		fmt.Println(err)
 		log.Panic(err)
 	}
 
@@ -38,4 +37,8 @@ func InitPostgresRepository(cfg *config.PostgresConfig) (*PostgresRepository, er
 		log.Panic(err)
 	}
 	return NewPostgresRepository(db, cfg), nil
+}
+
+func (p *PostgresRepository) CloseDB() {
+	_ = p.DB.Close()
 }

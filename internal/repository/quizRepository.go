@@ -1,6 +1,6 @@
 package repository
 
-import "QuizBot/pkg/entity"
+import "QuizBot/internal/entity"
 
 type QuizRepository interface {
 	AddQuiz(quiz *entity.Quiz) error

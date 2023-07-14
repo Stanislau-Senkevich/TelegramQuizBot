@@ -11,8 +11,7 @@ func (b *Bot) handleUpdates(updates *tgbotapi.UpdatesChannel) {
 }
 
 func (b *Bot) handleUpdate(update *tgbotapi.Update) {
-
-	if update.Message != nil && update.Message.Text != "" {
+	if update.Message != nil && update.Message.Text != "" { //nolint
 		chatID := update.Message.Chat.ID
 		user, err := b.userRep.CheckUser(chatID)
 		if err != nil {
@@ -20,6 +19,9 @@ func (b *Bot) handleUpdate(update *tgbotapi.Update) {
 		}
 		if !user {
 			err = b.userRep.LogUser(chatID)
+			if err != nil {
+				b.handleError(update, err)
+			}
 		}
 
 		if b.isCommand(update.Message.Text) {
@@ -33,10 +35,9 @@ func (b *Bot) handleUpdate(update *tgbotapi.Update) {
 			b.handleError(update, err)
 		}
 	}
-
 }
 
-func (b *Bot) handleMessage(update *tgbotapi.Update) {
+func (b *Bot) handleMessage(update *tgbotapi.Update) { //nolint
 	stage, err := b.userRep.GetStage(update.Message.Chat.ID)
 	if err != nil {
 		b.handleError(update, err)
@@ -83,7 +84,7 @@ func (b *Bot) handleMessage(update *tgbotapi.Update) {
 	}
 }
 
-func (b *Bot) handleCommand(update *tgbotapi.Update) {
+func (b *Bot) handleCommand(update *tgbotapi.Update) { //nolint
 	chatID := update.Message.Chat.ID
 
 	if update.Message.Text == b.Config.StopButton {
@@ -127,11 +128,9 @@ func (b *Bot) handleCommand(update *tgbotapi.Update) {
 	case b.Config.ContactsButton:
 		_, _ = b.bot.Send(tgbotapi.NewMessage(chatID, b.Config.ContactsReply))
 	}
-
 }
 
 func (b *Bot) stageBeforeCommand(chatID int64) (bool, error) {
-
 	stage, err := b.userRep.GetStage(chatID)
 	if err != nil {
 		return false, err
@@ -143,7 +142,5 @@ func (b *Bot) stageBeforeCommand(chatID int64) (bool, error) {
 		}
 		return false, nil
 	}
-
 	return true, nil
-
 }

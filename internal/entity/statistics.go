@@ -1,6 +1,9 @@
 package entity
 
-import "fmt"
+import (
+	"QuizBot/internal/config"
+	"fmt"
+)
 
 type Statistics struct {
 	Spheres            map[string]int
@@ -22,47 +25,49 @@ func InitStatistics() *Statistics {
 	}
 }
 
-func (s *Statistics) Print() string {
+func (s *Statistics) Print(cfg *config.Config) string {
+	const MIXED = " Mixed"
+
 	ans := "Your statistics\n"
 	ans += fmt.Sprintf("Quizzes passed: %d\nSummary results: %d/%d\n", s.QuizAmount, s.CorrectTasksAmount, s.TasksAmount)
 	ans += "Spheres:"
 	temp := ""
-	for v, am := range s.Spheres {
-		if v == "All" {
-			temp += " Mixed"
+	for v, amount := range s.Spheres {
+		if v == cfg.AllButton {
+			temp += MIXED
 		} else {
 			temp += " " + v
 		}
-		if am > 1 {
-			temp += fmt.Sprintf("(x%d)", am)
+		if amount > 1 {
+			temp += fmt.Sprintf("(x%d)", amount)
 		}
 		temp += ","
 	}
 	ans += temp[:len(temp)-1]
 	temp = ""
 	ans += "\nSections:"
-	for v, am := range s.Sections {
-		if v == "All" {
-			temp += " Mixed"
+	for v, amount := range s.Sections {
+		if v == cfg.AllButton {
+			temp += MIXED
 		} else {
 			temp += " " + v
 		}
-		if am > 1 {
-			temp += fmt.Sprintf("(x%d)", am)
+		if amount > 1 {
+			temp += fmt.Sprintf("(x%d)", amount)
 		}
 		temp += ","
 	}
 	ans += temp[:len(temp)-1]
 	temp = ""
 	ans += "\nDifficulties:"
-	for v, am := range s.Difficulties {
-		if v == "All" {
-			temp += " Mixed"
+	for v, amount := range s.Difficulties {
+		if v == cfg.AllButton {
+			temp += MIXED
 		} else {
 			temp += " " + v
 		}
-		if am > 1 {
-			temp += fmt.Sprintf("(x%d)", am)
+		if amount > 1 {
+			temp += fmt.Sprintf("(x%d)", amount)
 		}
 		temp += ","
 	}

@@ -1,23 +1,24 @@
-package postgresDB
+package postgresdb
 
 import (
-	"QuizBot/pkg/entity"
-	botError "QuizBot/pkg/error"
+	"QuizBot/internal/entity"
+	botError "QuizBot/internal/error"
 	"errors"
-	_ "github.com/lib/pq"
+	_ "github.com/lib/pq" //nolint
 )
 
 func (p *PostgresRepository) SavePoll(poll *entity.Poll) (bool, error) {
-	_, err := p.DB.Exec("INSERT INTO polls (poll_id, chat_id, message_id) values ($1, $2, $3);", poll.PollID, poll.ChatID, poll.MessageID)
+	_, err := p.DB.Exec("INSERT INTO polls (poll_id, chat_id, message_id) values ($1, $2, $3);",
+		poll.PollID, poll.ChatID, poll.MessageID)
 	if err != nil {
 		return false, botError.NewBotError(err, p.Config.BotProblem)
 	}
 	return true, nil
 }
 
-func (p *PostgresRepository) GetPoll(pollId string) (*entity.Poll, error) {
+func (p *PostgresRepository) GetPoll(pollID string) (*entity.Poll, error) {
 	poll := make([]entity.Poll, 0)
-	err := p.DB.Select(&poll, "SELECT * FROM polls where poll_id = $1", pollId)
+	err := p.DB.Select(&poll, "SELECT * FROM polls where poll_id = $1", pollID)
 	if err != nil {
 		return nil, botError.NewBotError(err, p.Config.BotProblem)
 	}

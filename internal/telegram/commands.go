@@ -1,7 +1,7 @@
 package telegram
 
 import (
-	"QuizBot/pkg/telegram/keyboard"
+	"QuizBot/internal/keyboard"
 	tgbotapi "github.com/go-telegram-bot-api/telegram-bot-api/v5"
 )
 

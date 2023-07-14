@@ -1,6 +1,6 @@
 package repository
 
-import "QuizBot/pkg/entity"
+import "QuizBot/internal/entity"
 
 type PollRepository interface {
 	SavePoll(poll *entity.Poll) (bool, error)

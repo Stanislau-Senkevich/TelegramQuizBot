@@ -1,8 +1,8 @@
-package mongoDB
+package mongodb
 
 import (
-	"QuizBot/pkg/entity"
-	botError "QuizBot/pkg/error"
+	"QuizBot/internal/entity"
+	botError "QuizBot/internal/error"
 	"context"
 	"go.mongodb.org/mongo-driver/bson"
 	"sort"

@@ -1,4 +1,4 @@
-package botError
+package boterror
 
 type BotError struct {
 	Err    error

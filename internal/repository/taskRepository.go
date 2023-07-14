@@ -1,7 +1,7 @@
 package repository
 
 import (
-	"QuizBot/pkg/entity"
+	"QuizBot/internal/entity"
 	"go.mongodb.org/mongo-driver/bson"
 )
 

@@ -1,8 +1,8 @@
-package postgresDB
+package postgresdb
 
 import (
-	"QuizBot/pkg/entity"
-	botError "QuizBot/pkg/error"
+	"QuizBot/internal/entity"
+	botError "QuizBot/internal/error"
 	"errors"
 )
 

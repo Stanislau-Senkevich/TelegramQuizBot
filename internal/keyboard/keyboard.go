@@ -5,11 +5,12 @@ import (
 )
 
 func makeRowsForKeyBoard(keys []string) [][]tgbotapi.KeyboardButton {
-	i := 0
+	i := 0 //nolint
 	rows := make([][]tgbotapi.KeyboardButton, 0)
 
 	for i+1 < len(keys) {
-		rows = append(rows, []tgbotapi.KeyboardButton{tgbotapi.NewKeyboardButton(keys[i]), tgbotapi.NewKeyboardButton(keys[i+1])})
+		rows = append(rows, []tgbotapi.KeyboardButton{tgbotapi.NewKeyboardButton(keys[i]),
+			tgbotapi.NewKeyboardButton(keys[i+1])})
 		i += 2
 	}
 

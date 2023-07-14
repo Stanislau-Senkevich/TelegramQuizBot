@@ -11,7 +11,7 @@ type Config struct {
 	Messages
 }
 
-func InitConfig() (*Config, error) {
+func InitConfig() (*Config, error) { //nolint
 	viper.SetConfigFile("configs/config.yml")
 	var cfg Config
 
@@ -75,11 +75,6 @@ func InitConfig() (*Config, error) {
 }
 
 func parseEnv(cfg *Config) error {
-	//err := gotenv.Load()
-	//if err != nil {
-	//	return err
-	//}
-
 	if err := viper.BindEnv("telegram_token"); err != nil {
 		return err
 	}

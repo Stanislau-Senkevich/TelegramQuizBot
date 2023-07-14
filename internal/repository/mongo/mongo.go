@@ -1,8 +1,9 @@
-package mongoDB
+package mongodb
 
 import (
-	"QuizBot/pkg/config"
+	"QuizBot/internal/config"
 	"context"
+	"errors"
 	"fmt"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
@@ -14,9 +15,9 @@ type MongoRepository struct {
 	Config *config.MongoConfig
 }
 
-func NewMongoRepository(DB *mongo.Client, cfg *config.MongoConfig) *MongoRepository {
+func NewMongoRepository(db *mongo.Client, cfg *config.MongoConfig) *MongoRepository {
 	return &MongoRepository{
-		DB:     DB,
+		DB:     db,
 		Config: cfg,
 	}
 }
@@ -28,11 +29,11 @@ func InitMongoRepository(cfg *config.MongoConfig) (*MongoRepository, error) {
 
 	client, err := mongo.Connect(context.TODO(), opts)
 	if err != nil {
-		return nil, err
+		return nil, errors.Unwrap(err)
 	}
 
-	if err = client.Database(cfg.DBName).RunCommand(context.TODO(), bson.D{{"ping", 1}}).Err(); err != nil {
-		return nil, err
+	if err = client.Database(cfg.DBName).RunCommand(context.TODO(), bson.D{{Key: "ping", Value: 1}}).Err(); err != nil {
+		return nil, errors.Unwrap(err)
 	}
 	return NewMongoRepository(client, cfg), nil
 }
